@@ -1,17 +1,26 @@
 var funcionAEjecutar = function () {
-  navigator.geolocation.getCurrentPosition(mostrarMiUbicacion);
+  obtenerMiUbicacion();
+  $(".ubicacionRestaurante").click(cambiarUbicacion);
 }
 
-var mostrarMiUbicacion = function (position) {
+var obtenerMiUbicacion = function () {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(mostrarPosicionActual);
+  } else {
+    alert("Geolocalización no es soportado en tu navegador");
+  }
+}
+
+var mostrarPosicionActual = function (posicion) {
   var misCoordenadas = {
- 		lat: position.coords.latitude,
- 		lng: position.coords.longitude
+ 		lat: posicion.coords.latitude,
+ 		lng: posicion.coords.longitude
  	};
   mostrarmeEnElMapa(misCoordenadas);
 }
 
 var mostrarmeEnElMapa = function (misCoordenadas) {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  var map = new google.maps.Map($('.map')[0], {
     zoom: 15,
     center: misCoordenadas
     });
@@ -19,6 +28,17 @@ var mostrarmeEnElMapa = function (misCoordenadas) {
           position: misCoordenadas,
           map: map
         });
-  }
+}
+
+var cambiarUbicacion = function () {
+  var latitud = $(this).data("latitud");
+  var longitud = $(this).data("longitud");
+console.log(latitud,longitud)
+  var coordenadasRestaurante = {
+    lat: latitud,
+    lng: longitud
+  };
+  mostrarmeEnElMapa(coordenadasRestaurante);
+}
 
 $(document).ready(funcionAEjecutar);

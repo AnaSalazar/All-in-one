@@ -1,6 +1,11 @@
-#map {
+.map {
   margin: 2%;
    width: 100%;
    height: 400px;
    background-color: grey;
  }
+
+.imitacionEnlace {
+  cursor: pointer;
+  color: blue;
+}
